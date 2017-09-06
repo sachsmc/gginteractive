@@ -11,3 +11,14 @@ getD3 <- function(){
 
 
 }
+
+
+is.ggmesh <- function(x) {
+
+  inherits(x, "ggmesh")
+
+}
+
+
+
+

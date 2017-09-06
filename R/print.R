@@ -1,9 +1,10 @@
-print.ggmesh <- function(x, ..., file = NULL, prefix = "a", cssString = NULL, jsString = NULL, omit.js = FALSE) {
+print.ggmesh <- function(x, ..., file = NULL, prefix = "a",
+                         cssString = NULL, jsString = NULL,
+                         htmlString = NULL, omit.js = FALSE) {
 
 
 
   wd <- dev.size(units = "px")
-  cat(wd, "\n")
 
   sinkPlot <- tempfile(fileext= ".png")
   grDevices::png(sinkPlot, width = wd[1] - 32, height = wd[2] - 32)
@@ -13,8 +14,24 @@ print.ggmesh <- function(x, ..., file = NULL, prefix = "a", cssString = NULL, js
 
   objnames <- grid::grid.ls(print = FALSE)$name
 
+  ## call any garnish functions in x$interactive
+
+  if(!is.null(x$interactive$togarnish)) {
+    pts <- sapply(names(x$interactive$togarnish), function(nm) {
+      grep(nm, objnames, value = TRUE)
+    })
+
+    for(i in 1:length(pts)) {
+
+      garnishparams <- list(pts, x$data[[x$interactive$togarnish[[i]]]], FALSE)
+      names(garnishparams) <- c("path", x$interactive$togarnish[[i]], "group")
+      do.call(gridSVG::grid.garnish, garnishparams)
+
+    }
+  }
+
   tmpFile <- tempfile()
-  svgString <- gridSVG::grid.export(name = tmpFile, prefix = prefix)$svg
+  svgString <- gridSVG::grid.export(name = tmpFile, prefix = prefix, strict = FALSE)$svg
 
   grDevices::dev.off()
   grDevices::dev.off()
@@ -23,11 +40,19 @@ print.ggmesh <- function(x, ..., file = NULL, prefix = "a", cssString = NULL, js
 
   unlink(sinkPlot)
 
+
+
+  htmlString <- as.character(tags$form(id = "yearform",
+    lapply(sort(unique(x$data$year)), function(x) list(tags$input(type = "radio", name = "year", value = x), x)
+  )))
+
+
+
   if(omit.js){
-    finstr <- c(cssString, svgString, jsString)
+    finstr <- c(cssString, svgString, htmlString, jsString)
   } else {
     d3String <- getD3()
-    finstr <- c(cssString, d3String, svgString, jsString)
+    finstr <- c(cssString, d3String, svgString, htmlString, jsString)
   }
 
   body <- paste(finstr, collapse = "\n\n")
