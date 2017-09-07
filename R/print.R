@@ -23,7 +23,7 @@ print.ggmesh <- function(x, ..., file = NULL, prefix = "a",
 
     for(i in 1:length(pts)) {
 
-      garnishparams <- list(pts, x$data[[x$interactive$togarnish[[i]]]], FALSE)
+      garnishparams <- list(pts, as.character(x$data[[x$interactive$togarnish[[i]]]]), FALSE)
       names(garnishparams) <- c("path", x$interactive$togarnish[[i]], "group")
       do.call(gridSVG::grid.garnish, garnishparams)
 
@@ -40,12 +40,14 @@ print.ggmesh <- function(x, ..., file = NULL, prefix = "a",
 
   unlink(sinkPlot)
 
+  meshed_var <- names(x$interactive$controls)[1]
 
+  htmlString <- x$interactive$controls[[meshed_var]]
 
-  htmlString <- as.character(tags$form(id = "yearform",
-    lapply(sort(unique(x$data$year)), function(x) list(tags$input(type = "radio", name = "year", value = x), x)
-  )))
+  meshed_geom <- names(x$interactive$togarnish)[which(x$interactive$togarnish == meshed_var)]
+  meshed_geom_num <- paste0(prefix, grep(paste0("^", meshed_geom), objnames, value = TRUE))
 
+  jsString <- get_changeSubgroup(meshed_var, meshed_geom_num)
 
 
   if(omit.js){

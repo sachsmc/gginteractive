@@ -48,16 +48,16 @@ cycleme = setInterval(function(){
 
 
 
-function changeSubgroup(idsr, year) {
+function changeSubgroup(idsr, year, duration) {
 
   d3.selectAll("[id^='" + idsr + ".1.']").transition().duration(1).attr("opacity", 0)
-  d3.selectAll("[id^='" + idsr + ".1.'][year='" + year + "']").transition().duration(200).attr("opacity", 1)
+  d3.selectAll("[id^='" + idsr + ".1.'][year='" + year + "']").transition().duration(duration).attr("opacity", 1)
 
 }
 
 d3.selectAll("input[name='year']").on("click", function() {
 
-  changeSubgroup("ageom_point.points.21144", this.value)
+  changeSubgroup("ageom_point.points.21384", this.value, 100)
 
 })
 
