@@ -24,7 +24,7 @@ unmesh <- function(object) {
 
 }
 
-
+#' @export
 
 mesh_alpha <- function(object, geom, variable, on = NULL, ...) {
 
@@ -38,7 +38,7 @@ mesh_alpha <- function(object, geom, variable, on = NULL, ...) {
   togarnish <- list(variable)
   names(togarnish) <- gridGeom
 
-  controls <- list(on(object, variable, id = paste0(variable, "form"), ...))
+  controls <- list(function(prefix) on(object, variable, id = paste0(variable, "form"), prefix, ...))
   names(controls) <- variable
 
   object$interactive <- list(togarnish = togarnish, controls = controls)
@@ -48,13 +48,16 @@ mesh_alpha <- function(object, geom, variable, on = NULL, ...) {
 }
 
 
-radio <- function(x, variable, id, ...) {
+#' @export
+
+radio <- function(x, variable, id, prefix, ...) {
 
   values <- sort(unique(as.character(x$data[[variable]])))
   values <- c(values, "Any")
   as.character(tags$form(id = id,
                          lapply(values,
-                                function(x) list(tags$input(type = "radio", name = variable, value = x), x)
+                                function(x) list(tags$input(type = "radio",
+                                                            name = paste0(prefix, variable), value = x), x)
                          )))
 
 }
@@ -63,37 +66,34 @@ radio <- function(x, variable, id, ...) {
 
 geom_lookup <- function(geom) {
 
-  c(point = "geom_point.points")[geom]
+  c(point = "geom_point.points",
+    line = "GRID.polyline",
+    bar = "geom_rect.rect")[geom]
 
 }
 
 
 
-get_changeSubgroup <- function(variable, meshed_geom){
+get_changeSubgroup <- function(variable, meshed_geom, prefix){
 
 jsString <- "
 <script type='text/javascript'>
-function changeSubgroup(idsr, year, duration) {
-
-  if(year == 'Any') {
-    d3.selectAll(\"[id^='\" + idsr + \".1.']\").transition().duration(duration).attr(\"opacity\", 1)
-  } else {
-   d3.selectAll(\"[id^='\" + idsr + \".1.']\").transition().duration(1).attr(\"opacity\", 0)
-   d3.selectAll(\"[id^='\" + idsr + \".1.'][%s='\" + year + \"']\").transition()
-     .duration(duration).attr(\"opacity\", 1)
-  }
-
-}
 
 d3.selectAll(\"input[name='%s']\").on(\"click\", function() {
 
-  changeSubgroup(\"%s\", this.value, 100)
+  if(this.value == 'Any') {
+    d3.selectAll(\"[id^='%s.1.']\").transition().duration(100).attr(\"opacity\", 1)
+  } else {
+    d3.selectAll(\"[id^='%s.1.']\").transition().duration(1).attr(\"opacity\", 0)
+    d3.selectAll(\"[id^='%s.1.'][%s='\" + this.value + \"']\").transition()
+      .duration(100).attr(\"opacity\", 1)
+  }
 
 })
 </script>
 "
 
-sprintf(jsString, variable, variable, meshed_geom)
+sprintf(jsString, paste0(prefix, variable), meshed_geom,  meshed_geom,  meshed_geom, variable)
 
 }
 

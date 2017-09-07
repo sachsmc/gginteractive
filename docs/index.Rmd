@@ -1,0 +1,85 @@
+---
+title: "Interactive Layers on ggplot2"
+author: "Michael C Sachs"
+date: "September 7, 2017"
+output: 
+  html_document: 
+    self_contained: no
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, dpi = 72, fig.width = 6, fig.height = .618 * 6)
+
+```
+
+
+
+```{r mtcars}
+library(gginteractive)
+
+p1 <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
+```
+
+A normal ggplot. Next we pipe to a "mesh" layer that allows the viewer to interact with the radio buttons. 
+
+
+```{r mest2, results = "asis"}
+p1 %>% mesh_alpha(geom = "point", variable = "cyl", on = radio)
+```
+
+
+The ggplot object is converted to svg, and interactive elements created with some javascript that is created on the fly. 
+
+Just create a blank mesh, so that the plot is rendered as svg. In Rstudio this will appear in the viewer, rather than the plot window. 
+
+```{r mesh3, results = "asis"}
+p1 %>% mesh_blank()
+```
+
+
+
+
+The gapminder example: 
+
+
+```{r gap1, results = "asis"}
+library(gapminder)
+
+p2 <- ggplot(gapminder, aes(x = gdpPercap, y = lifeExp, color = continent, size = pop)) +
+         geom_point()  + scale_x_log10() 
+
+p2 <- p2 %>% mesh_alpha(geom = "point", variable = "year", on = radio)
+p2
+```
+
+
+Convert back to a regular ggplot object: 
+
+
+```{r}
+p2 %>% unmesh()
+```
+
+
+
+Another example: 
+
+
+```{r, results = "asis"}
+(ggplot(gapminder, aes(x = gdpPercap, y = lifeExp, color = continent, size = pop)) +
+   geom_point()  + scale_x_log10()) %>%
+  mesh_alpha(geom = "point", variable = "continent", on = radio)
+```
+
+
+Kind of works for other geoms: 
+
+```{r, results = "asis"}
+mtcars$cyl2 <- paste(mtcars$cyl)
+(ggplot(mtcars, aes(x = wt, y = mpg, color = cyl2)) + geom_bar(stat = "identity")) %>%
+  mesh_alpha(geom = "bar", variable = "cyl2", on = radio)
+```
+
+
+
+
