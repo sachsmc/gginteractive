@@ -125,13 +125,16 @@ assemble_html_body <- function(x, ..., file = NULL, prefix = "a",
 
   meshed_var <- names(x$interactive$controls)[1]
 
-  if(!is.null(x$interactive$togarnish)) {
-   htmlString <- x$interactive$controls[[meshed_var]](prefix)
+  if(!is.null(x$interactive$controls)) {
+   htmlString <- x$interactive$controls[[1]](prefix)
   }
   meshed_geom <- names(x$interactive$togarnish)[which(x$interactive$togarnish == meshed_var)]
   meshed_geom_num <- paste0(prefix, grep(paste0("^", meshed_geom), objnames, value = TRUE))
 
-  jsString <- get_changeSubgroup(meshed_var, meshed_geom_num, prefix)
+  radioname <- paste0(prefix, "radio")
+  selectors <- paste0(prefix, "geom_smooth")
+  jsString <- x$interactive$jsfuncs[[1]](radioname, selectors)
+  #jsString <- get_changeSubgroup(meshed_var, meshed_geom_num, prefix)
 
 
   if(omit.js){

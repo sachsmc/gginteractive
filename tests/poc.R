@@ -22,7 +22,7 @@ p1
 p1 %>% unmesh()
 
 
-
+(ggplot(mtcars, aes(x = wt, y = mpg, col = as.factor(cyl))) + geom_point() + stat_smooth(se = FALSE, method = "lm") + stat_smooth(se = FALSE)) %>% mesh_blank()
 
 (ggplot(mtcars, aes(x = wt, y = mpg, color = cyl2)) + geom_point()) %>%
   mesh_alpha(geom = "point", variable = "cyl2", on = radio)
@@ -33,4 +33,13 @@ mtcars$cyl2 <- paste(mtcars$cyl)
   mesh_alpha(geom = "bar", variable = "cyl2", on = radio)
 
 p3 <- ggplot(mtcars, aes(x = wt, y = mpg, color = cyl2)) + geom_line()
+
+
+
+p4 <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point() +
+  stat_smooth(se = FALSE) + stat_smooth(method = "lm", se = FALSE) + stat_smooth(span = .5, se = FALSE)
+
+p4 %>% mesh_geom(geom = "smooth", attr = "opacity",
+          control = radio(c(loess = 1, lm = 2, "loess span .5" = 3, none = 0)))
 
