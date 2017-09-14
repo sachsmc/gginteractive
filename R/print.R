@@ -133,8 +133,10 @@ assemble_html_body <- function(x, ..., file = NULL, prefix = "a",
 
   radioname <- paste0(prefix, "radio")
   selectors <- paste0(prefix, "geom_smooth")
-  jsString <- x$interactive$jsfuncs[[1]](radioname, selectors)
-  #jsString <- get_changeSubgroup(meshed_var, meshed_geom_num, prefix)
+
+  if(!is.null(x$interactive$jsfuncs)) {
+    jsString <- x$interactive$jsfuncs[[1]](radioname, selectors)
+  } else jsString <- get_changeSubgroup(meshed_var, meshed_geom_num, prefix)
 
 
   if(omit.js){

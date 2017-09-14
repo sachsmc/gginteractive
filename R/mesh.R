@@ -156,6 +156,9 @@ sprintf(jsString, paste0(prefix, variable), meshed_geom,  meshed_geom,  meshed_g
 testJS <- function(radionames, geomnames) {
 instr <- "
 <script type='text/javascript'>
+
+d3.selectAll(\"[id^='%s']\").attr(\"opacity\", 0)
+
 d3.selectAll(\"input[name='%s']\").on(\"click\", function() {
 
   posib = []
@@ -174,6 +177,6 @@ d3.selectAll(\"input[name='%s']\").on(\"click\", function() {
               })
 </script>
 "
-  sprintf(instr, radionames, geomnames, geomnames, geomnames)
+  sprintf(instr, geomnames, radionames, geomnames, geomnames, geomnames)
 
 }

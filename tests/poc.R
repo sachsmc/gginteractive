@@ -35,11 +35,20 @@ mtcars$cyl2 <- paste(mtcars$cyl)
 p3 <- ggplot(mtcars, aes(x = wt, y = mpg, color = cyl2)) + geom_line()
 
 
-
 p4 <- ggplot(mtcars, aes(x = wt, y = mpg)) +
   geom_point() +
-  stat_smooth(se = FALSE) + stat_smooth(method = "lm", se = FALSE) + stat_smooth(span = .5, se = FALSE)
+  stat_smooth(se = FALSE) + stat_smooth(method = "lm", se = FALSE) + stat_smooth(span = .3, se = FALSE)
 
 p4 %>% mesh_geom(geom = "smooth", attr = "opacity",
           control = radio(c(loess = 1, lm = 2, "loess span .5" = 3, none = 0)))
+
+spans <- seq(.3, 1.5, by = .1)
+p4 <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point() +
+  lapply(spans, function(x) stat_smooth(method = "loess", span = x, se = FALSE))
+
+controls <- 0:length(spans)
+names(controls) <- c("none", spans)
+p4 %>% mesh_geom("smooth", attr = "opacity",
+                 control = radio(controls))
 
