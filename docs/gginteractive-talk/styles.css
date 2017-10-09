@@ -1,0 +1,121 @@
+blockquote {
+  background: #f9f9f9;
+  border-left: 10px solid #ccc;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+  quotes: "\201C""\201D""\2018""\2019";
+  font-size: smaller;
+}
+blockquote p {
+  display: inline;
+}
+.footnote {
+position: absolute;
+bottom: 1.25em;
+font-size: 60%;
+width: 70%;
+left: 10em;
+}
+iframe {
+width: 100%;
+height: 550px;
+background: white;
+border: 0 solid #e6e6e6;
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+}
+article{
+  margin-top: 20px !important;
+}
+
+
+
+.axis {
+  font: 24px Veranda;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.axis .domain {
+  fill: none;
+  stroke: #000;
+  stroke-opacity: .3;
+  stroke-width: 10px;
+  stroke-linecap: round;
+}
+
+.axis .halo {
+  fill: none;
+  stroke: #ddd;
+  stroke-width: 8px;
+  stroke-linecap: round;
+}
+
+.slider .handle {
+  fill: #fff;
+  stroke: #000;
+  stroke-opacity: .5;
+  stroke-width: 1.25px;
+  cursor: crosshair;
+}
+
+.text1 {
+
+	font-family: Source code pro;
+	font-size: 24px;
+
+}
+
+.text2 {
+  font-family: Source code pro;
+	font-size: 33px;
+}
+
+.text3 {
+  font-family: Source code pro;
+  font-size: 33px;
+}
+
+
+.tess {
+  fill: blue;
+  stroke: blue;
+  stroke-width: 0px;
+  opacity: 0;
+}
+
+.dot {
+    fill: blue;
+    stroke-width: 0px;
+    opacity: 0;
+    fill-opacity: 1;
+}
+
+.rects :hover circle {
+  fill: red;
+  opacity: 1;
+}
+
+.rects :hover text {
+
+  opacity: 1;
+
+}
+
+.hidetext {
+
+  font-size: 14px;
+  stroke-opacity: 0;
+  fill-opacity: 1;
+  fill: black;
+  opacity: 0;
+
+}
+
+
+slide.current {
+  background-color: white;
+}
+

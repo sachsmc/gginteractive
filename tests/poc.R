@@ -52,3 +52,10 @@ names(controls) <- c("none", spans)
 p4 %>% mesh_geom("smooth", attr = "opacity",
                  control = radio(controls))
 
+
+pscatter <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point() +
+  stat_smooth(method = "loess", se = FALSE) + stat_smooth(method = "lm", se = FALSE) +
+  stat_smooth(method = "gam", se = FALSE)
+
+pscatter %>% mesh_geom(geom = "smooth", attr = "opacity",
+                       control = radio(c(loess = 1, lm = 2, gam = 3, none = 0)))
