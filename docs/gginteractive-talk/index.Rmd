@@ -89,10 +89,25 @@ gridSVG::grid.export(NULL)$svg
 
 [d3js.org](https://d3js.org)
 
-- Rendered objects in the web brower, text, svg, etc. 
+- Rendered objects in the web browser, text, svg, etc. 
 - Manipulate visual elements with JavaScript in response to changes in data
 - Abstract and powerful
 - Data first!
+
+A number of toolkits have spun off based on d3.js
+
+- vega
+- nvd3
+- plotly
+
+# Shiny
+
+[shiny.rstudio.com](https://shiny.rstudio.com)
+
+- Organize special R objects in a browser
+- Controls trigger updates to R code running on a server
+- R then updates plots/tables/analyses
+- "Reactive", not really interactive
 
 
 
@@ -325,9 +340,10 @@ p2
     + Visual consistency across print and web media
 - Use svg modification power of `d3.js` to provide interactivity
     + Requires writing a *bit* of JS
+- Essentially standalone documents, can be easily shared and embedded in web pages
     
 ### Path forward
-- Create `R` packages to accomplish specific task, e.g. `plotROC`
+- Create `R` packages to accomplish specific task, e.g. `plotROC`, `ggkm`
 - *Abstract some of these ideas to make something more broadly useful*
 
 
@@ -343,7 +359,7 @@ This would not be possible without the following:
 
 - @sachsmc ([github](https://github.com/sachsmc), [twitter](https://twitter.com/sachsmc))
 - [michael.sachs@ki.se](mailto:michael.sachs@ki.se)
-- [Slides](https://sachsmc.github.io/UseR2015-Talk) and [Source](https://github.com/sachsmc/UseR2015-Talk)
+- [Slides](https://sachsmc.github.io/gginteractive/gginteractive-talk/) and [github.com/sachsmc/gginteractive](https://github.com/sachsmc/gginteractive)
 
 
 
